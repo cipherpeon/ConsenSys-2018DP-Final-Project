@@ -1,5 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Space+Mono');
+
 body {
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  padding: 40px;
+  font-family: 'Space Mono', monospace;
+}
+
+a, a:hover, a:active, a:focus {
+  text-decoration: none;
+}
+
+.col-xs-12 {
+    padding: 20px;
 }

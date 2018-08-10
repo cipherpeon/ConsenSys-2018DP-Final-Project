@@ -8,6 +8,7 @@ const StyledTitle = styled.h1`
   position: relative;
   font-size: ${fonts.size.large};
   text-decoration: ${({underline}) => underline ? 'underline' : 'none'};
+  margin-top:0;
 `;
 
 const Title = ({

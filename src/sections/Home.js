@@ -59,7 +59,7 @@ class Home extends Component {
         size={fonts.size.medium}
         border={borders.width.thick}
         text="Continue"
-        href="/next"
+        href="/profile"
       />
     } else {
       if (this.state.waiting) {

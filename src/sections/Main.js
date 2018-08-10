@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home.js';
+import Profile from './Profile.js';
+import Explore from './Explore.js';
+import NotFound from './NotFound.js';
 
 import getWeb3 from '../utils/getWeb3'
 import SociethyData from '../../build/contracts/SociethyData.json'
@@ -95,9 +98,21 @@ class Main extends Component {
               onUnregisteredNameChange={this.onUnregisteredNameChange}
             />
           }/>
-          <Route path='/next' render={() =>
-            <h1>Next</h1>
-          }/>
+          { this.state.registered &&
+            <Route path='/profile' render={() =>
+              <Profile
+                societhyDataInstance={this.state.societhyDataInstance}
+                userName={this.state.userName}
+                userAddress={this.state.userAddress}
+              />
+            }/>
+          }
+          { this.state.registered &&
+            <Route path='/explore' render={() =>
+              <Explore/>
+            }/>
+          }
+          <Route render={() => <NotFound/>} />
         </Switch>
       </main>
     );

@@ -23,11 +23,7 @@ class App extends Component {
             />
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={6}>
-            <Main/>
-          </Col>
-        </Row>
+        <Main/>
       </Grid>
     );
   }

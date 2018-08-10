@@ -8,8 +8,8 @@ const StyledAddress = styled.h1`
   position: relative;
   font-size: ${fonts.size.small};
   text-overflow: ellipsis;
-  margin-top: -20px;
-  margin-bottom: 20px;
+  margin-top: -18px;
+  margin-bottom: 22px;
 `;
 
 const Address = ({

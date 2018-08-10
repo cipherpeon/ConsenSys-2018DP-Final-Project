@@ -23,7 +23,7 @@ class Home extends Component {
 
     if (this.props.registered || this.state.newName.length == 0) return;
 
-    let result = this.props.societhyDataInstance.addNewUser(this.state.newName, {from:this.props.userAddress}).then(value => {
+    let result = this.props.dataInstance.addNewUser(this.state.newName, {from:this.props.userAddress}).then(value => {
       this.setState({
         waiting: true,
       })

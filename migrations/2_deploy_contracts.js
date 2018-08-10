@@ -1,5 +1,5 @@
-var SociethyData = artifacts.require("./SociethyData.sol");
+var Data = artifacts.require("./Data.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SociethyData);
+  deployer.deploy(Data);
 };

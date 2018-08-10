@@ -28,7 +28,7 @@ const Nav = ({
 );
 
 Nav.propTypes = {
-  routes: PropTypes.array.required,
+  routes: PropTypes.array,
 };
 
 Nav.defaultProps = {

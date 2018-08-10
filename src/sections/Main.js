@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
 import { Row, Col } from 'react-bootstrap';
 
 import Nav from '../components/Nav.js';
@@ -11,7 +10,7 @@ import Explore from './Explore.js';
 import NotFound from './NotFound.js';
 
 import getWeb3 from '../utils/getWeb3'
-import SociethyData from '../../build/contracts/SociethyData.json'
+import Data from '../../build/contracts/Data.json'
 
 class Main extends Component {
 
@@ -20,7 +19,7 @@ class Main extends Component {
 
     this.state = {
       web3: null,
-      societhyDataInstance: null,
+      dataInstance: null,
       userName: null,
       userAddress: null,
       registered: false,
@@ -55,8 +54,8 @@ class Main extends Component {
      */
 
     const contract = require('truffle-contract')
-    const societhyData = contract(SociethyData)
-    societhyData.setProvider(this.state.web3.currentProvider)
+    const data = contract(Data)
+    data.setProvider(this.state.web3.currentProvider)
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
@@ -64,9 +63,9 @@ class Main extends Component {
         userAddress: accounts[0],
       });
 
-      societhyData.deployed().then((instance) => {
+      data.deployed().then((instance) => {
         this.setState({
-          societhyDataInstance: instance,
+          dataInstance: instance,
         })
 
         // Stores a given value, 5 by default.
@@ -77,7 +76,7 @@ class Main extends Component {
           registered: result,
         });
 
-        return this.state.societhyDataInstance.userGetName.call(accounts[0]);
+        return this.state.dataInstance.userGetName.call(accounts[0]);
       }).then(result => {
 
         this.setState({
@@ -94,7 +93,7 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' render={() =>
             <Home
-              societhyDataInstance={this.state.societhyDataInstance}
+              dataInstance={this.state.dataInstance}
               userName={this.state.userName}
               userAddress={this.state.userAddress}
               registered={this.state.registered}
@@ -110,9 +109,10 @@ class Main extends Component {
                 />
               </Col>
               <Profile
-                societhyDataInstance={this.state.societhyDataInstance}
+                dataInstance={this.state.dataInstance}
                 userName={this.state.userName}
                 userAddress={this.state.userAddress}
+                web3={this.state.web3}
               />
             </Row>
           }/>

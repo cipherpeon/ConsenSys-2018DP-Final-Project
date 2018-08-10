@@ -68,7 +68,7 @@ class Home extends Component {
             text="Waiting..."
           />
           <Subtitle
-            text="Reload one the transaction has been confirmed"
+            text="Reload once the transaction has been confirmed"
           />
         </div>
 

@@ -85,7 +85,7 @@ class Profile extends Component {
           />
         </BlockWrapper>
         <Title
-          text={"Your Socieites"}
+          text={"Your Societies"}
         />
         <BlockWrapper>
           {this.state.societies.length > 0 && this.state.societies.map(society => {

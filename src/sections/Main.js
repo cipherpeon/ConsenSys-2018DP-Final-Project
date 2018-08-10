@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { AnimatedSwitch } from 'react-router-transition';
+import { Row, Col } from 'react-bootstrap';
+
+import Nav from '../components/Nav.js';
 
 import Home from './Home.js';
 import Profile from './Profile.js';
@@ -98,21 +102,31 @@ class Main extends Component {
               onUnregisteredNameChange={this.onUnregisteredNameChange}
             />
           }/>
-          { this.state.registered &&
-            <Route path='/profile' render={() =>
+          <Route path='/profile' render={() =>
+            <Row>
+              <Col xs={12} sm={4}>
+                <Nav
+                  routes={['/profile', '/explore']}
+                />
+              </Col>
               <Profile
                 societhyDataInstance={this.state.societhyDataInstance}
                 userName={this.state.userName}
                 userAddress={this.state.userAddress}
               />
-            }/>
-          }
-          { this.state.registered &&
-            <Route path='/explore' render={() =>
+            </Row>
+          }/>
+          <Route path='/explore' render={() =>
+            <Row>
+              <Col xs={12} sm={4}>
+                <Nav
+                  routes={['/profile', '/explore']}
+                />
+              </Col>
               <Explore/>
-            }/>
-          }
-          <Route render={() => <NotFound/>} />
+            </Row>
+          }/>
+          <Route component={NotFound} />
         </Switch>
       </main>
     );

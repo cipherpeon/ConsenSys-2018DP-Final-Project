@@ -1,5 +1,4 @@
 import React, { Component, Redirect } from 'react';
-import Nav from '../components/Nav.js';
 import Title from '../components/Title.js';
 import Subtitle from '../components/Subtitle.js';
 import Address from '../components/Address.js';
@@ -12,29 +11,28 @@ class Profile extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    if (!this.props.registered) {
+      history.pushState(null, '/404')
+    }
+  }
+
   render() {
     return (
-      <Row>
-        <Col xs={12} sm={4}>
-          <Nav
-            routes={['/profile', '/explore']}
-          />
-        </Col>
-        <Col xs={12} sm={8}>
-          <Title
-            text={"Profile"}
-          />
-          <Subtitle
-            text={this.props.userName}
-          />
-          <Address
-            text={this.props.userAddress}
-          />
-          <Title
-            text={"Your Socieites"}
-          />
-        </Col>
-      </Row>
+      <Col xs={12} sm={8}>
+        <Title
+          text={"Profile"}
+        />
+        <Subtitle
+          text={this.props.userName}
+        />
+        <Address
+          text={this.props.userAddress}
+        />
+        <Title
+          text={"Your Socieites"}
+        />
+      </Col>
     );
   }
 

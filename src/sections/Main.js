@@ -105,7 +105,7 @@ class Main extends Component {
           }/>
           <Route path='/profile' render={() =>
             <Row>
-              <Col xs={12} sm={4}>
+              <Col xs={12} sm={3}>
                 <Nav
                   routes={['/profile', '/explore', '/create', '/stats']}
                 />
@@ -120,12 +120,13 @@ class Main extends Component {
           }/>
           <Route path='/explore' render={() =>
             <Row>
-              <Col xs={12} sm={4}>
+              <Col xs={12} sm={3}>
                 <Nav
                   routes={['/profile', '/explore', '/create', '/stats']}
                 />
               </Col>
               <Explore
+                dataInstance={this.state.dataInstance}
                 userAddress={this.state.userAddress}
                 web3={this.state.web3}
               />
@@ -133,7 +134,7 @@ class Main extends Component {
           }/>
           <Route path='/create' render={() =>
             <Row>
-              <Col xs={12} sm={4}>
+              <Col xs={12} sm={3}>
                 <Nav
                   routes={['/profile', '/explore', '/create', '/stats']}
                 />
@@ -146,7 +147,7 @@ class Main extends Component {
           }/>
           <Route path='/stats' render={() =>
             <Row>
-              <Col xs={12} sm={4}>
+              <Col xs={12} sm={3}>
                 <Nav
                   routes={['/profile', '/explore', '/create', '/stats']}
                 />

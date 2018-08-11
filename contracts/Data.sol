@@ -16,7 +16,6 @@ contract Data {
     }
 
     mapping(address => User) public users;
-    mapping(address => Society) public socieites;
 
     uint public numberOfSocieties;
     uint public numberOfUsers;
@@ -60,7 +59,8 @@ contract Data {
         require(userExists(msg.sender));
         users[msg.sender].memberOf[_society] = true;
         users[msg.sender].memberships.push(_society);
-        //socieites[_society].join();
+        Society s = Society(_society);
+        s.join();
         return true;
     }
 

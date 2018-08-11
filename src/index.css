@@ -2,7 +2,8 @@
 
 body {
   margin: 0;
-  padding: 40px;
+  padding: 0;
+  padding-top: 40px;
   font-family: 'Space Mono', monospace;
 }
 

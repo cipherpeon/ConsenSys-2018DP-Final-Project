@@ -88,6 +88,7 @@ class Home extends Component {
           border={borders.width.thick}
           text="Register"
           onClick={this.addNewUser}
+          disabled={this.state.newName.length == 0}
         />
       }
 

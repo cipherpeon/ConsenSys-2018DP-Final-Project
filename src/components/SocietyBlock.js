@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fonts } from '../styles';
+import { colors, fonts, borders } from '../styles';
 
 import Subtitle from '../components/Subtitle.js';
 import Address from '../components/Address.js';
+import Button from '../components/Button.js';
 
 const StyledSocietyBlock = styled.div`
   color: ${colors.darkGrey};
@@ -16,6 +17,8 @@ const SocietyBlock = ({
   name,
   location,
   admin,
+  buttonText,
+  buttonFunction,
   ...props
 }) => (
   <StyledSocietyBlock
@@ -23,6 +26,8 @@ const SocietyBlock = ({
     name={name}
     location={location}
     admin={admin}
+    buttonText={buttonText}
+    buttonFunction={buttonFunction}
     {...props}
   >
     <div>
@@ -38,6 +43,16 @@ const SocietyBlock = ({
       <Address
         text={"Admin: " + admin}
       />
+      {buttonText.length > 0
+      ?
+      <Button
+        size={fonts.size.small}
+        border={borders.width.moderate}
+        text={buttonText}
+        onClick={buttonFunction}
+      />
+      :
+      null}
     </div>
   </StyledSocietyBlock>
 );
@@ -47,6 +62,8 @@ SocietyBlock.propTypes = {
   name: PropTypes.string,
   location: PropTypes.string,
   admin: PropTypes.string,
+  buttonText: PropTypes.string,
+  buttonFunction: PropTypes.function,
 };
 
 SocietyBlock.defaultProps = {
@@ -54,6 +71,7 @@ SocietyBlock.defaultProps = {
   name: '',
   location: '',
   admin: '',
+  buttonText: '',
 };
 
 export default SocietyBlock;

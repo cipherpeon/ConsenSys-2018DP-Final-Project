@@ -21,6 +21,8 @@ class Explore extends Component {
     }
     this.onSearchAddressChange = this.onSearchAddressChange.bind(this);
     this.getSociety = this.getSociety.bind(this);
+    this.joinSociety = this.joinSociety.bind(this);
+    this.manageSociety = this.manageSociety.bind(this);
   }
 
   componentWillMount() {
@@ -77,6 +79,7 @@ class Explore extends Component {
         society: current,
       });
     }).catch(e => {
+      alert('No society registered at this address!');
       this.setState({
         society: null,
       });
@@ -84,23 +87,52 @@ class Explore extends Component {
 
   }
 
+  joinSociety() {
+    alert('join')
+  }
+
+  manageSociety() {
+    alert('manage')
+  }
+
   render() {
 
     let searchResult;
 
     if (this.state.society) {
+      // tell user if they're an admin instead of showing address
+      let adminText = this.state.society.admin;
+      let isAdmin = false;
+      if (this.state.society.admin == this.props.userAddress) {
+        adminText = "You";
+        isAdmin = true;
+      }
+
+      // show join or manage button accordingly
+      let buttonText;
+      let buttonFunction;
+      if (isAdmin) {
+        buttonText = "Manage";
+        buttonFunction = this.manageSociety;
+      } else {
+        buttonText = "Join";
+        buttonFunction = this.joinSociety;
+      }
+
+      // render search result
       searchResult =
       <SocietyBlock
         address={this.state.society.address}
         name={this.state.society.name}
         location={this.state.society.location}
-        admin={(this.state.society.admin == this.props.userAddress
-        ? "You" : this.state.society.admin)}
+        admin={adminText}
+        buttonText={buttonText}
+        buttonFunction={buttonFunction}
       />
     }
 
     return (
-      <Col xs={12} sm={8}>
+      <Col xs={12} sm={9}>
         <Title
           text={"Explore"}
         />
@@ -121,8 +153,17 @@ class Explore extends Component {
             onClick={this.getSociety}
             disabled={this.state.searchAddress.length == 0}
           />
-          {searchResult}
         </BlockWrapper>
+        {searchResult ?
+          <div>
+            <Title
+              text="Result"
+            />
+            <BlockWrapper>
+              {searchResult}
+            </BlockWrapper>
+          </div>
+        : null}
       </Col>
     );
   }

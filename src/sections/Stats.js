@@ -36,7 +36,7 @@ class Stats extends Component {
   render() {
 
     return (
-      <Col xs={12} sm={8}>
+      <Col xs={12} sm={9}>
         <Title
           text={"Stats"}
         />

@@ -15,6 +15,7 @@ const StyledButton = styled.button`
   margin-bottom: 10px;
   padding: 5px 20px;
   pointer-events: ${({ disabled }) => disabled ? 'none' : 'auto' };
+  opacity: ${({ disabled }) => disabled ? '0.5' : '1' };
   font-size: ${({size}) => size};
   &:focus {
     outline: none;

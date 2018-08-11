@@ -8,6 +8,7 @@ import Home from './Home.js';
 import Profile from './Profile.js';
 import Explore from './Explore.js';
 import Create from './Create.js';
+import Stats from './Stats.js';
 import NotFound from './NotFound.js';
 
 import getWeb3 from '../utils/getWeb3'
@@ -106,7 +107,7 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={4}>
                 <Nav
-                  routes={['/profile', '/explore', '/create']}
+                  routes={['/profile', '/explore', '/create', '/stats']}
                 />
               </Col>
               <Profile
@@ -121,7 +122,7 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={4}>
                 <Nav
-                  routes={['/profile', '/explore', '/create']}
+                  routes={['/profile', '/explore', '/create', '/stats']}
                 />
               </Col>
               <Explore
@@ -134,12 +135,24 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={4}>
                 <Nav
-                  routes={['/profile', '/explore', '/create']}
+                  routes={['/profile', '/explore', '/create', '/stats']}
                 />
               </Col>
               <Create
                 dataInstance={this.state.dataInstance}
                 userAddress={this.state.userAddress}
+              />
+            </Row>
+          }/>
+          <Route path='/stats' render={() =>
+            <Row>
+              <Col xs={12} sm={4}>
+                <Nav
+                  routes={['/profile', '/explore', '/create', '/stats']}
+                />
+              </Col>
+              <Stats
+                dataInstance={this.state.dataInstance}
               />
             </Row>
           }/>

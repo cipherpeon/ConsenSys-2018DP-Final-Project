@@ -18,17 +18,13 @@ class Explore extends Component {
     this.state = {
       searchAddress: '',
       society: null,
+      isMember: false,
     }
     this.onSearchAddressChange = this.onSearchAddressChange.bind(this);
     this.getSociety = this.getSociety.bind(this);
     this.joinSociety = this.joinSociety.bind(this);
+    this.leaveSociety = this.leaveSociety.bind(this);
     this.manageSociety = this.manageSociety.bind(this);
-  }
-
-  componentWillMount() {
-    if (!this.props.registered) {
-      history.pushState(null, '/404')
-    }
   }
 
   componentWillReceiveProps(props) {
@@ -49,6 +45,7 @@ class Explore extends Component {
     let currentAddress;
     let currentName;
     let currentLocation;
+    let currentIsMember;
     let currentAdmin;
 
     currentAddress = this.state.searchAddress;
@@ -66,6 +63,9 @@ class Explore extends Component {
       return society.at(currentAddress).location.call();
     }).then(location => {
       currentLocation = location;
+      return society.at(currentAddress).userIsMember.call(this.props.userAddress);
+    }).then(isMember => {
+      currentIsMember = isMember;
       return society.at(currentAddress).admin.call();
     }).then(admin => {
       currentAdmin = admin;
@@ -77,6 +77,7 @@ class Explore extends Component {
       }
       this.setState({
         society: current,
+        isMember: currentIsMember,
       });
     }).catch(e => {
       alert('No society registered at this address!');
@@ -88,7 +89,19 @@ class Explore extends Component {
   }
 
   joinSociety() {
-    alert('join')
+    let success = this.props.dataInstance.joinSociety(this.state.society.address, {from:this.props.userAddress}).then(result => {
+      return result;
+    });
+
+    return success;
+  }
+
+  leaveSociety() {
+    let success = this.props.dataInstance.leaveSociety(this.state.society.address, {from:this.props.userAddress}).then(result => {
+      return result;
+    });
+
+    return success;
   }
 
   manageSociety() {
@@ -114,6 +127,9 @@ class Explore extends Component {
       if (isAdmin) {
         buttonText = "Manage";
         buttonFunction = this.manageSociety;
+      } else if (this.state.isMember) {
+        buttonText = "Leave";
+        buttonFunction = this.leaveSociety;
       } else {
         buttonText = "Join";
         buttonFunction = this.joinSociety;

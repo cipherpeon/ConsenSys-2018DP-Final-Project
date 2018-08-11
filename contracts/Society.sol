@@ -10,7 +10,7 @@ contract Society {
     string public location;
     address public admin;
     address public newAdmin;
-    address[] public members;
+    uint public memberships;
     mapping(address => bool) public isMember;
     Event[] public events;
     bytes32 public logoHash;
@@ -30,8 +30,7 @@ contract Society {
         location = _location;
         admin = _admin;
         logoHash = _logoHash;
-
-        members.push(_admin);
+        memberships = 1;
         isMember[_admin] = true;
     }
 
@@ -68,6 +67,10 @@ contract Society {
     Utilities
     */
 
+    function userIsMember(address _user) external view returns (bool) {
+        return isMember[_user];
+    }
+
     function proposeNewAdmin(address _newAdmin) external returns (bool) {
         require(msg.sender == admin);
         newAdmin = _newAdmin;
@@ -81,9 +84,15 @@ contract Society {
         return true;
     }
 
-    function join() external returns (bool) {
-        members.push(msg.sender);
-        isMember[msg.sender] = true;
+    function join(address _user) external returns (bool) {
+        memberships = memberships.add(1);
+        isMember[_user] = true;
+        return true;
+    }
+
+    function leave(address _user) external returns (bool) {
+        memberships = memberships.sub(1);
+        isMember[_user] = false;
         return true;
     }
 

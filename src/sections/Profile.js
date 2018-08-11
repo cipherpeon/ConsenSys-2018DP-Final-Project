@@ -21,12 +21,6 @@ class Profile extends Component {
     }
   }
 
-  componentDidMount() {
-    if (!this.props.registered) {
-      history.pushState(null, '/404')
-    }
-  }
-
   componentWillReceiveProps(props) {
     // if the updated props have come in
     if (!this.props.dataInstance && props.dataInstance) {
@@ -91,7 +85,7 @@ class Profile extends Component {
     } else {
       blocks =
         <Subtitle
-          text="You haven't joined any yet"
+          text="You haven't joined or created any yet"
         />
     }
 

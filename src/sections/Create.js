@@ -24,12 +24,6 @@ class Create extends Component {
     this.createSociety = this.createSociety.bind(this);
   }
 
-  componentWillMount() {
-    if (!this.props.registered) {
-      history.pushState(null, '/404')
-    }
-  }
-
   onNewNameChange(event) {
     this.setState({
       newName: event.target.value

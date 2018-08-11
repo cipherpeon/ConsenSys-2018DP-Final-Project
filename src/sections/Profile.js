@@ -71,6 +71,25 @@ class Profile extends Component {
 
   render() {
 
+    let blocks;
+
+    if (this.state.societies.length > 0) {
+      blocks =
+      this.state.societies.map(society => {
+        <SocietyBlock
+          address={society.address}
+          name={society.name}
+          location={society.location}
+          admin={society.admin}
+        />
+      })
+    } else {
+      blocks =
+        <Subtitle
+          text="You haven't joined any yet"
+        />
+    }
+
     return (
       <Col xs={12} sm={8}>
         <Title
@@ -88,16 +107,7 @@ class Profile extends Component {
           text={"Your Societies"}
         />
         <BlockWrapper>
-          {this.state.societies.length > 0 && this.state.societies.map(society => {
-            return(
-              <SocietyBlock
-                address={society.address}
-                name={society.name}
-                location={society.location}
-                admin={society.admin}
-              />
-            );
-          })}
+          {blocks}
         </BlockWrapper>
       </Col>
     );

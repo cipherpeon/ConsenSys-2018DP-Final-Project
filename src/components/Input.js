@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fonts } from '../styles';
+import { colors, fonts, lines } from '../styles';
 
 const StyledInput = styled.input`
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   pointer-events: ${({ disabled }) => (disabled ? 'noce' : 'auto')};
-  width: auto;
+  width: ${({ length }) => length};
   max-width: 100%;
   margin-top: 8px;
   margin-bottom: 20px;
@@ -37,6 +37,7 @@ class Input extends Component {
         disabled={this.props.disabled}
         placeholder={this.props.placeholder}
         type={this.props.type}
+        length={this.props.length}
         {...this.props}
       />
     );
@@ -46,14 +47,15 @@ class Input extends Component {
 }
 
 Input.propTypes = {
-  label: PropTypes.string,
+  length: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   type: PropTypes.string,
+
 };
 
 Input.defaultProps = {
-  label: '',
+  length: lines.length.short,
   disabled: false,
   placeholder: '',
   type: 'Text',

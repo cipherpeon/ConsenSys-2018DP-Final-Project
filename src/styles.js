@@ -26,3 +26,12 @@ export const borders = {
     thick: 4,
   },
 }
+
+export const lines = {
+  length: {
+    short: '250px',
+    medium: '350px',
+    long: '450px',
+    max: '95%',
+  }
+}

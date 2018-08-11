@@ -6,6 +6,7 @@ import { colors, fonts, lines } from '../styles';
 const StyledInput = styled.input`
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   pointer-events: ${({ disabled }) => (disabled ? 'noce' : 'auto')};
+  display: block;
   width: ${({ length }) => length};
   max-width: 100%;
   margin-top: 8px;

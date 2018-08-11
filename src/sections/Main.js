@@ -7,6 +7,7 @@ import Nav from '../components/Nav.js';
 import Home from './Home.js';
 import Profile from './Profile.js';
 import Explore from './Explore.js';
+import Create from './Create.js';
 import NotFound from './NotFound.js';
 
 import getWeb3 from '../utils/getWeb3'
@@ -105,7 +106,7 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={4}>
                 <Nav
-                  routes={['/profile', '/explore']}
+                  routes={['/profile', '/explore', '/create']}
                 />
               </Col>
               <Profile
@@ -120,10 +121,26 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={4}>
                 <Nav
-                  routes={['/profile', '/explore']}
+                  routes={['/profile', '/explore', '/create']}
                 />
               </Col>
-              <Explore/>
+              <Explore
+                userAddress={this.state.userAddress}
+                web3={this.state.web3}
+              />
+            </Row>
+          }/>
+          <Route path='/create' render={() =>
+            <Row>
+              <Col xs={12} sm={4}>
+                <Nav
+                  routes={['/profile', '/explore', '/create']}
+                />
+              </Col>
+              <Create
+                dataInstance={this.state.dataInstance}
+                userAddress={this.state.userAddress}
+              />
             </Row>
           }/>
           <Route component={NotFound} />

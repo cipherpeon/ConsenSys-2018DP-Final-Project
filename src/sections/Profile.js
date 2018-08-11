@@ -9,7 +9,6 @@ import Address from '../components/Address.js';
 import BlockWrapper from '../components/BlockWrapper.js';
 
 import Society from '../../build/contracts/Society.json'
-
 const contract = require('truffle-contract');
 const society = contract(Society);
 
@@ -76,12 +75,18 @@ class Profile extends Component {
     if (this.state.societies.length > 0) {
       blocks =
       this.state.societies.map(society => {
-        <SocietyBlock
-          address={society.address}
-          name={society.name}
-          location={society.location}
-          admin={society.admin}
-        />
+        if (society.admin == this.props.userAddress) {
+          society.admin = "You";
+        }
+
+        return(
+          <SocietyBlock
+            address={society.address}
+            name={society.name}
+            location={society.location}
+            admin={society.admin}
+          />
+        );
       })
     } else {
       blocks =

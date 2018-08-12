@@ -101,6 +101,9 @@ class Profile extends Component {
         <Title
           text={"Profile"}
         />
+        <Text
+          text={"This is the only personal data held in the smart contract."}
+        />
         <BlockWrapper>
           <Subtitle
             text={this.props.userName}
@@ -113,7 +116,7 @@ class Profile extends Component {
           text={"Your Societies"}
         />
         <Text
-          text={"To interact with a society, enter the contract address on the Manage page"}
+          text={"To interact with a society, enter the contract address from below in the Manage page."}
         />
         <BlockWrapper>
           {blocks}

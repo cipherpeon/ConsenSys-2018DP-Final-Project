@@ -1,5 +1,6 @@
 import React, { Component, Redirect } from 'react';
 import Title from '../components/Title.js';
+import Text from '../components/Text.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
 import Input from '../components/Input.js';
@@ -121,6 +122,9 @@ class Donate extends Component {
       <Col xs={12} sm={9}>
         <Title
           text={"Donate"}
+        />
+        <Text
+          text={"Send some ETH to support a society you're a member of!"}
         />
         <BlockWrapper>
           <Input

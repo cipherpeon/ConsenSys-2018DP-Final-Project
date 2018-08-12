@@ -124,6 +124,9 @@ class Explore extends Component {
         <Title
           text={"Explore"}
         />
+        <Text
+          text={"Find a society near you. Nothing there? Start a new one on the Create page!"}
+        />
         <BlockWrapper>
           <CountryDropdown
             value={this.state.searchLocation}
@@ -146,7 +149,7 @@ class Explore extends Component {
               text="Results"
             />
             <Text
-              text={"To interact with a society, enter the contract address on the Manage page"}
+              text={"To interact with a society, enter the contract address from below in the Manage page."}
             />
             <BlockWrapper>
               {searchResult}

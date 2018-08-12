@@ -1,5 +1,6 @@
 import React, { Component, Redirect } from 'react';
 import Title from '../components/Title.js';
+import Text from '../components/Text.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
 import Input from '../components/Input.js';
@@ -161,6 +162,9 @@ class Manage extends Component {
       <Col xs={12} sm={9}>
         <Title
           text={"Manage"}
+        />
+        <Text
+          text={"Here you can join or leave a society, or if you're an admin you can withdraw donations."}
         />
         <BlockWrapper>
           <Input

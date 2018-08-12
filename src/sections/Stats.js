@@ -1,5 +1,6 @@
 import React, { Component, Redirect } from 'react';
 import Title from '../components/Title.js';
+import Text from '../components/Text.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
 import Subtitle from '../components/Subtitle.js';
@@ -45,6 +46,9 @@ class Stats extends Component {
       <Col xs={12} sm={9}>
         <Title
           text={"Stats"}
+        />
+        <Text
+          text={"These statistics apply to the entire system."}
         />
         <BlockWrapper>
           <Subtitle

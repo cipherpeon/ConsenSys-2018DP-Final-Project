@@ -1,6 +1,7 @@
 import React, { Component, Redirect } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
 import Title from '../components/Title.js';
+import Text from '../components/Text.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
 
@@ -60,6 +61,9 @@ class Create extends Component {
       <Col xs={12} sm={9}>
         <Title
           text={"Create"}
+        />
+        <Text
+          text={"To create a society give it a good name, and include a link to a group chat/website etc."}
         />
         <BlockWrapper>
           <Input

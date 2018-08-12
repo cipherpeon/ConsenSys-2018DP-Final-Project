@@ -1,4 +1,5 @@
 import React, { Component, Redirect } from 'react';
+import { CountryDropdown } from 'react-country-region-selector';
 import Title from '../components/Title.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
@@ -14,13 +15,13 @@ class Create extends Component {
     this.state = {
       newName: '',
       newLocation: '',
-      newLogoHash: '',
+      newSocialLink: '',
       created: false,
     }
 
     this.onNewNameChange = this.onNewNameChange.bind(this);
     this.onNewLocationChange = this.onNewLocationChange.bind(this);
-    this.onNewLogoHashChange = this.onNewLogoHashChange.bind(this);
+    this.onSocialLinkChange = this.onSocialLinkChange.bind(this);
     this.createSociety = this.createSociety.bind(this);
   }
 
@@ -30,22 +31,22 @@ class Create extends Component {
     })
   }
 
-  onNewLocationChange(event) {
+  onNewLocationChange(value) {
     this.setState({
-      newLocation: event.target.value
+      newLocation: value
     })
   }
 
-  onNewLogoHashChange(event) {
+  onSocialLinkChange(event) {
     this.setState({
-      newLogoHash: event.target.value
+      newSocialLink: event.target.value
     })
   }
 
   createSociety() {
 
     let result = this.props.dataInstance.createSociety(this.state.newName,
-      this.state.newLocation, this.state.newLogoHash, {from:this.props.userAddress}).then(value => {
+      this.state.newLocation, this.state.newSocialLink, {from:this.props.userAddress}).then(value => {
       this.setState({
         created: true,
       })
@@ -62,23 +63,21 @@ class Create extends Component {
         />
         <BlockWrapper>
           <Input
-            placeholder="Name (required)"
+            placeholder="Name"
             onChange={this.onNewNameChange}
             value={this.state.newName}
             length={lines.length.medium}
             disabled={this.state.created}
           />
-          <Input
-            placeholder="Location (required)"
-            onChange={this.onNewLocationChange}
+          <CountryDropdown
             value={this.state.newLocation}
-            length={lines.length.medium}
+            onChange={(val) => this.onNewLocationChange(val)}
             disabled={this.state.created}
           />
           <Input
-            placeholder="Logo Hash (optional)"
-            onChange={this.onNewLogoHashChange}
-            value={this.state.newLogoHash}
+            placeholder="Social Link"
+            onChange={this.onSocialLinkChange}
+            value={this.state.newSocialLink}
             length={lines.length.medium}
             disabled={this.state.created}
           />
@@ -92,7 +91,8 @@ class Create extends Component {
             onClick={this.createSociety}
             disabled={this.state.created ||
             (this.state.newName.length == 0 ||
-            this.state.newLocation.length == 0)}
+            this.state.newLocation.length == 0 ||
+            this.state.newSocialLink.length == 0)}
           />
         </BlockWrapper>
       </Col>

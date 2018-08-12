@@ -17,6 +17,7 @@ const SocietyBlock = ({
   name,
   location,
   admin,
+  socialLink,
   buttonText,
   buttonFunction,
   ...props
@@ -26,6 +27,7 @@ const SocietyBlock = ({
     name={name}
     location={location}
     admin={admin}
+    socialLink={socialLink}
     buttonText={buttonText}
     buttonFunction={buttonFunction}
     {...props}
@@ -43,16 +45,17 @@ const SocietyBlock = ({
       <Address
         text={"Admin: " + admin}
       />
+      {socialLink && <a href={socialLink} target="_blank"><Address
+        text={"Social Link: " + socialLink}
+      /></a>}
       {buttonText.length > 0
-      ?
+      &&
       <Button
         size={fonts.size.small}
         border={borders.width.moderate}
         text={buttonText}
         onClick={buttonFunction}
-      />
-      :
-      null}
+      />}
     </div>
   </StyledSocietyBlock>
 );
@@ -62,6 +65,7 @@ SocietyBlock.propTypes = {
   name: PropTypes.string,
   location: PropTypes.string,
   admin: PropTypes.string,
+  socialLink: PropTypes.string,
   buttonText: PropTypes.string,
   buttonFunction: PropTypes.function,
 };

@@ -6,8 +6,10 @@ import Nav from '../components/Nav.js';
 
 import Home from './Home.js';
 import Profile from './Profile.js';
+import Manage from './Manage.js';
 import Explore from './Explore.js';
 import Create from './Create.js';
+import Donate from './Donate.js';
 import Stats from './Stats.js';
 import NotFound from './NotFound.js';
 
@@ -107,7 +109,7 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={3}>
                 <Nav
-                  routes={['/profile', '/explore', '/create', '/stats']}
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
                 />
               </Col>
               <Profile
@@ -118,11 +120,25 @@ class Main extends Component {
               />
             </Row>
           }/>
+          <Route path='/manage' render={() =>
+            <Row>
+              <Col xs={12} sm={3}>
+                <Nav
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
+                />
+              </Col>
+              <Manage
+                dataInstance={this.state.dataInstance}
+                userAddress={this.state.userAddress}
+                web3={this.state.web3}
+              />
+            </Row>
+          }/>
           <Route path='/explore' render={() =>
             <Row>
               <Col xs={12} sm={3}>
                 <Nav
-                  routes={['/profile', '/explore', '/create', '/stats']}
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
                 />
               </Col>
               <Explore
@@ -136,7 +152,7 @@ class Main extends Component {
             <Row>
               <Col xs={12} sm={3}>
                 <Nav
-                  routes={['/profile', '/explore', '/create', '/stats']}
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
                 />
               </Col>
               <Create
@@ -145,15 +161,30 @@ class Main extends Component {
               />
             </Row>
           }/>
+          <Route path='/donate' render={() =>
+            <Row>
+              <Col xs={12} sm={3}>
+                <Nav
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
+                />
+              </Col>
+              <Donate
+                dataInstance={this.state.dataInstance}
+                userAddress={this.state.userAddress}
+                web3={this.state.web3}
+              />
+            </Row>
+          }/>
           <Route path='/stats' render={() =>
             <Row>
               <Col xs={12} sm={3}>
                 <Nav
-                  routes={['/profile', '/explore', '/create', '/stats']}
+                  routes={['/profile', '/manage', '/explore', '/create', '/donate', '/stats']}
                 />
               </Col>
               <Stats
                 dataInstance={this.state.dataInstance}
+                web3={this.state.web3}
               />
             </Row>
           }/>

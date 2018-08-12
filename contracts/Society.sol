@@ -9,57 +9,55 @@ contract Society {
     string public name;
     string public location;
     address public admin;
-    address public newAdmin;
+    string public socialLink;
     uint public memberships;
     mapping(address => bool) public isMember;
-    Event[] public events;
-    bytes32 public logoHash;
 
-    struct Event {
-        string name;
-        string description;
-        string place;
-        string time;
-        string date;
-        string organiser;
-        address[] attendees;
-    }
-
-    constructor(string _name, string _location, address _admin, bytes32 _logoHash) public {
+    constructor(string _name, string _location, address _admin, string _socialLink) public {
         name = _name;
         location = _location;
         admin = _admin;
-        logoHash = _logoHash;
+        socialLink = _socialLink;
         memberships = 1;
         isMember[_admin] = true;
+    }
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin);
+        _;
+    }
+
+    modifier onlyMembers() {
+        require(isMember[msg.sender]);
+        _;
+    }
+
+    modifier onlyNonMembers() {
+        require(!isMember[msg.sender]);
+        _;
     }
 
     /*
     Setters
     */
 
-    function setName(string _name) external returns (bool) {
+    function setName(string _name) external onlyAdmin returns (bool) {
         name = _name;
         return true;
     }
 
-    function setLocation(string _location) external returns (bool) {
+    function setLocation(string _location) external onlyAdmin returns (bool) {
         location = _location;
         return true;
     }
 
-    function setAdmin(address _admin) external returns (bool) {
+    function setAdmin(address _admin) external onlyAdmin returns (bool) {
         admin = _admin;
         return true;
     }
 
-    function setNewAdmin(address _newAdmin) external returns (bool) {
-        newAdmin = _newAdmin;
-        return true;
-    }
-
-    function setLogoHash(bytes32 _logoHash) external returns (bool) {
-        logoHash = _logoHash;
+    function setSocialLink(string _socialLink) external onlyAdmin returns (bool) {
+        socialLink = _socialLink;
         return true;
     }
 
@@ -71,29 +69,18 @@ contract Society {
         return isMember[_user];
     }
 
-    function proposeNewAdmin(address _newAdmin) external returns (bool) {
-        require(msg.sender == admin);
-        newAdmin = _newAdmin;
-        return true;
-    }
-
-    function acceptNewAdmin() external returns (bool) {
-        require(msg.sender == newAdmin);
-        admin = newAdmin;
-        newAdmin = address(0);
-        return true;
-    }
-
-    function join(address _user) external returns (bool) {
+    function join(address _user) external onlyNonMembers returns (bool) {
         memberships = memberships.add(1);
         isMember[_user] = true;
         return true;
     }
 
-    function leave(address _user) external returns (bool) {
+    function leave(address _user) external onlyMembers returns (bool) {
         memberships = memberships.sub(1);
         isMember[_user] = false;
         return true;
     }
+
+    function () external payable {}
 
 }

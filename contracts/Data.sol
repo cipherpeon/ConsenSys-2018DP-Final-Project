@@ -17,11 +17,13 @@ contract Data {
     }
 
     mapping(address => User) public users;
+    mapping(string => Society[]) societiesInLocation;
     User[] public allUsers;
     Society[] public allSocieties;
 
     uint public numberOfSocieties;
     uint public numberOfUsers;
+    uint public totalDonations;
 
     event NewUserAdded();
     event NewSocietyAdded();
@@ -73,10 +75,11 @@ contract Data {
     Society utilities
     */
 
-    function createSociety(string _name, string _location, bytes32 _logoHash) public returns (Society) {
+    function createSociety(string _name, string _location, string _socialLink) public returns (Society) {
         require(userExists(msg.sender));
-        Society s = new Society(_name, _location, msg.sender, _logoHash);
+        Society s = new Society(_name, _location, msg.sender, _socialLink);
         allSocieties.push(s);
+        societiesInLocation[_location].push(s);
         joinSociety(s);
         newSocietyAdded();
         return s;
@@ -98,6 +101,17 @@ contract Data {
         Society s = Society(_society);
         s.leave(msg.sender);
         return true;
+    }
+
+    function makeDonation(address _society) public payable returns (bool) {
+        require(userExists(msg.sender) && users[msg.sender].memberOf[_society]);
+        _society.transfer(msg.value);
+        totalDonations = totalDonations.add(msg.value);
+        return true;
+    }
+
+    function getSocietiesInLocation(string _location) public view returns (Society[]) {
+        return societiesInLocation[_location];
     }
 
     /*

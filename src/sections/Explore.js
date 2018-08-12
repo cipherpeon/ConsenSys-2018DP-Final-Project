@@ -1,4 +1,5 @@
 import React, { Component, Redirect } from 'react';
+import { CountryDropdown } from 'react-country-region-selector';
 import Title from '../components/Title.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
@@ -16,15 +17,11 @@ class Explore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchAddress: '',
-      society: null,
-      isMember: false,
+      searchLocation: '',
+      societies: [],
     }
-    this.onSearchAddressChange = this.onSearchAddressChange.bind(this);
-    this.getSociety = this.getSociety.bind(this);
-    this.joinSociety = this.joinSociety.bind(this);
-    this.leaveSociety = this.leaveSociety.bind(this);
-    this.manageSociety = this.manageSociety.bind(this);
+    this.onSearchLocationChange = this.onSearchLocationChange.bind(this);
+    this.getSocietiesInLocation = this.getSocietiesInLocation.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -33,118 +30,92 @@ class Explore extends Component {
     }
   }
 
-  onSearchAddressChange(event) {
+  onSearchLocationChange(value) {
     this.setState({
-      searchAddress: event.target.value
+      searchLocation: value
     })
   }
 
-  getSociety() {
+  getSocietiesInLocation() {
+    this.props.dataInstance.getSocietiesInLocation.call(this.state.searchLocation).then(results => {
+      results.forEach(result => {
 
-    let current = {}
-    let currentAddress;
-    let currentName;
-    let currentLocation;
-    let currentIsMember;
-    let currentAdmin;
+        let societies = [];
+        let current = {};
+        let currentAddress;
+        let currentName;
+        let currentLocation;
+        let currentSocialLink;
+        let currentAdmin;
+        let currentIsMember;
 
-    currentAddress = this.state.searchAddress;
+        currentAddress = result;
 
-    if (!this.props.web3.isAddress(currentAddress)) {
-      alert('Invalid address!');
-      this.setState({
-        society: null,
-      });
-      return;
-    }
+        society.at(currentAddress).name.call().then(name => {
+          currentName = name;
+          return society.at(currentAddress).location.call();
+        }).then(location => {
+          currentLocation = location;
+          return society.at(currentAddress).userIsMember.call(this.props.userAddress);
+        }).then(isMember => {
+          currentIsMember = isMember;
+          return society.at(currentAddress).socialLink.call();
+        }).then(socialLink => {
+          currentSocialLink = socialLink;
+          return society.at(currentAddress).admin.call();
+        }).then(admin => {
+          currentAdmin = admin;
+          current = {
+            address: currentAddress,
+            name: currentName,
+            location: currentLocation,
+            admin: currentAdmin,
+            socialLink: currentSocialLink,
+            isMember: currentIsMember
+          }
 
-    society.at(currentAddress).name.call().then(name => {
-      currentName = name;
-      return society.at(currentAddress).location.call();
-    }).then(location => {
-      currentLocation = location;
-      return society.at(currentAddress).userIsMember.call(this.props.userAddress);
-    }).then(isMember => {
-      currentIsMember = isMember;
-      return society.at(currentAddress).admin.call();
-    }).then(admin => {
-      currentAdmin = admin;
-      current = {
-        address: currentAddress,
-        name: currentName,
-        location: currentLocation,
-        admin: currentAdmin,
-      }
-      this.setState({
-        society: current,
-        isMember: currentIsMember,
-      });
-    }).catch(e => {
-      alert('No society registered at this address!');
-      this.setState({
-        society: null,
-      });
+          societies = this.state.societies;
+          societies.push(current);
+          this.setState({
+            societies: societies,
+          });
+        }).catch(e => {
+          alert('No society registered at this address!');
+          this.setState({
+            society: null,
+          });
+        });
+      })
     });
-
-  }
-
-  joinSociety() {
-    let success = this.props.dataInstance.joinSociety(this.state.society.address, {from:this.props.userAddress}).then(result => {
-      return result;
-    });
-
-    return success;
-  }
-
-  leaveSociety() {
-    let success = this.props.dataInstance.leaveSociety(this.state.society.address, {from:this.props.userAddress}).then(result => {
-      return result;
-    });
-
-    return success;
-  }
-
-  manageSociety() {
-    alert('manage')
   }
 
   render() {
 
     let searchResult;
 
-    if (this.state.society) {
-      // tell user if they're an admin instead of showing address
-      let adminText = this.state.society.admin;
-      let isAdmin = false;
-      if (this.state.society.admin == this.props.userAddress) {
-        adminText = "You";
-        isAdmin = true;
-      }
+    if (this.state.societies.length > 0) {
 
-      // show join or manage button accordingly
-      let buttonText;
-      let buttonFunction;
-      if (isAdmin) {
-        buttonText = "Manage";
-        buttonFunction = this.manageSociety;
-      } else if (this.state.isMember) {
-        buttonText = "Leave";
-        buttonFunction = this.leaveSociety;
-      } else {
-        buttonText = "Join";
-        buttonFunction = this.joinSociety;
-      }
+      searchResult = this.state.societies.map(society => {
+        // tell user if they're an admin instead of showing address
+        let adminText = society.admin;
+        let isAdmin = false;
+        if (society.admin == this.props.userAddress) {
+          adminText = "You";
+          isAdmin = true;
+        }
 
-      // render search result
-      searchResult =
-      <SocietyBlock
-        address={this.state.society.address}
-        name={this.state.society.name}
-        location={this.state.society.location}
-        admin={adminText}
-        buttonText={buttonText}
-        buttonFunction={buttonFunction}
-      />
+        // render search result
+        return(
+        <SocietyBlock
+            address={society.address}
+            name={society.name}
+            location={society.location}
+            admin={adminText}
+            socialLink={society.socialLink}
+          />
+        );
+      })
+
     }
 
     return (
@@ -153,11 +124,9 @@ class Explore extends Component {
           text={"Explore"}
         />
         <BlockWrapper>
-          <Input
-            placeholder="Enter society contract address"
-            onChange={this.onSearchAddressChange}
-            value={this.state.searchAddress}
-            length={lines.length.max}
+          <CountryDropdown
+            value={this.state.searchLocation}
+            onChange={(val) => this.onSearchLocationChange(val)}
           />
           <Button
             color={colors.darkGrey}
@@ -166,14 +135,14 @@ class Explore extends Component {
             size={fonts.size.medium}
             border={borders.width.thick}
             text="Go"
-            onClick={this.getSociety}
-            disabled={this.state.searchAddress.length == 0}
+            onClick={this.getSocietiesInLocation}
+            disabled={this.state.searchLocation.length == 0}
           />
         </BlockWrapper>
         {searchResult ?
           <div>
             <Title
-              text="Result"
+              text="Results"
             />
             <BlockWrapper>
               {searchResult}

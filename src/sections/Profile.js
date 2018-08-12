@@ -34,6 +34,7 @@ class Profile extends Component {
           let currentAddress;
           let currentName;
           let currentLocation;
+          let currentSocialLink;
           let currentAdmin;
 
           currentAddress = result;
@@ -42,6 +43,9 @@ class Profile extends Component {
             return society.at(currentAddress).location.call();
           }).then(location => {
             currentLocation = location;
+            return society.at(currentAddress).socialLink.call();
+          }).then(socialLink => {
+            currentSocialLink = socialLink;
             return society.at(currentAddress).admin.call();
           }).then(admin => {
             currentAdmin = admin;
@@ -50,6 +54,7 @@ class Profile extends Component {
               name: currentName,
               location: currentLocation,
               admin: currentAdmin,
+              socialLink: currentSocialLink,
             }
             societies = this.state.societies;
             societies.push(current);
@@ -79,6 +84,7 @@ class Profile extends Component {
             name={society.name}
             location={society.location}
             admin={society.admin}
+            socialLink={society.socialLink}
           />
         );
       })

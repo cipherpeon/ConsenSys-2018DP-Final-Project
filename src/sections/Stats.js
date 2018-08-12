@@ -27,7 +27,13 @@ class Stats extends Component {
         this.setState({
           societies: societies
         });
-      });
+        return props.dataInstance.totalDonations.call();
+      }).then(donations => {
+        let amount = this.props.web3.fromWei(donations, "ether");
+        this.setState({
+          donations: amount
+        })
+      })
     }
   }
 
@@ -46,6 +52,9 @@ class Stats extends Component {
           />
           <Subtitle
             text={"Number of societies: " + this.state.societies}
+          />
+          <Subtitle
+            text={"Total donated: " + this.state.donations + " ETH"}
           />
         </BlockWrapper>
       </Col>

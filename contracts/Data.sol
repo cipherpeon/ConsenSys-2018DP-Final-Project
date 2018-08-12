@@ -1,9 +1,11 @@
 pragma solidity 0.4.24;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
 import "./Society.sol";
 
-contract Data {
+/** @title Societhy Data */
+contract Data is Pausable {
 
     using SafeMath for uint;
 
@@ -13,7 +15,6 @@ contract Data {
         string name;
         mapping(address => bool) memberOf;
         uint memberships;
-        uint totalDonations;
     }
 
     mapping(address => User) public users;
@@ -32,18 +33,48 @@ contract Data {
     Getters
     */
 
-    function userGetName(address _user) public view returns (string) {
-        return users[_user].name;
+    /**
+     * @dev Getter for user name
+     * @param  _user Address to identify user
+     * @return _name Identified user's name
+     */
+    function userGetName(address _user) public view returns (string _name) {
+        _name = users[_user].name;
     }
 
-    function userIsRegistered(address _user) public view returns (bool) {
-        return users[_user].registered;
+    /**
+     * @dev Getter for user registration status
+     * @param  _user Address to identify user
+     * @return _registered Identified user's registration status
+     */
+    function userIsRegistered(address _user) public view returns (bool _registered) {
+        _registered = users[_user].registered;
     }
 
-    function userGetTotalDonations(address _user) public view returns (uint) {
-        return users[_user].totalDonations;
+    /**
+     * @dev Getter for user existence
+     * @param  _user Address to identify user
+     * @return _exists Identified user's existence
+     */
+    function userExists(address _user) public view returns (bool _exists) {
+        _exists = users[_user].registered;
     }
 
+    /**
+     * @dev Getter for user membership status
+     * @param  _user Address to identify user
+     * @param  _society Address to identify society
+     * @return _isMemberOf Identified user's membership status of identified society
+     */
+    function userIsMemberOf(address _user, address _society) private view returns (bool _isMemberOf) {
+        _isMemberOf = users[_user].memberOf[_society];
+    }
+
+    /**
+     * @dev Getter for list of societies user is member of
+     * @param  _user Address to identify user
+     * @return {address[]} List of addresses identifying societies the identified user is member of
+     */
     function userGetMemberships(address _user) public view returns (address[]) {
         uint len = users[_user].memberships;
         address[] memory memberships = new address[](len);
@@ -57,6 +88,11 @@ contract Data {
         return memberships;
     }
 
+    /**
+     * @dev Getter for list of members that belong to a society
+     * @param  _society Address to identify society
+     * @return {address[]} List of addresses identifying users the identified society has
+     */
     function societyGetMembers(address _society) public view returns (address[]) {
         Society s = Society(_society);
         uint len = s.memberships();
@@ -71,21 +107,41 @@ contract Data {
         return memberships;
     }
 
+    /**
+     * @dev Getter for list of societies that are in an identified location
+     * @param  _location String to identify location
+     * @return _inLocation List of addresses identifying societies in the identified location
+     */
+    function getSocietiesInLocation(string _location) public view returns (Society[] _inLocation) {
+        _inLocation = societiesInLocation[_location];
+    }
+
     /*
     Society utilities
     */
 
-    function createSociety(string _name, string _location, string _socialLink) public returns (Society) {
+    /**
+     * @dev Creates a new society
+     * @param  _name String for new society name
+     * @param  _location String for new society location
+     * @param  _name String for new society's social link
+     * @return _society New society contract address
+     */
+    function createSociety(string _name, string _location, string _socialLink) public whenNotPaused returns (Society _society) {
         require(userExists(msg.sender));
-        Society s = new Society(_name, _location, msg.sender, _socialLink);
-        allSocieties.push(s);
-        societiesInLocation[_location].push(s);
-        joinSociety(s);
+        _society = new Society(_name, _location, msg.sender, _socialLink);
+        allSocieties.push(_society);
+        societiesInLocation[_location].push(_society);
+        joinSociety(_society);
         newSocietyAdded();
-        return s;
     }
 
-    function joinSociety(address _society) public returns (bool) {
+    /**
+     * @dev Allows user to join an existing society
+     * @param  _society Address to identify society
+     * @return {bool} Success
+     */
+    function joinSociety(address _society) public whenNotPaused returns (bool) {
         require(userExists(msg.sender));
         users[msg.sender].memberOf[_society] = true;
         users[msg.sender].memberships = users[msg.sender].memberships.add(1);
@@ -94,7 +150,12 @@ contract Data {
         return true;
     }
 
-    function leaveSociety(address _society) public returns (bool) {
+    /**
+     * @dev Allows user to leave an existing society
+     * @param  _society Address to identify society
+     * @return {bool} Success
+     */
+    function leaveSociety(address _society) whenNotPaused public returns (bool) {
         require(userExists(msg.sender));
         users[msg.sender].memberOf[_society] = false;
         users[msg.sender].memberships = users[msg.sender].memberships.sub(1);
@@ -103,36 +164,28 @@ contract Data {
         return true;
     }
 
-    function makeDonation(address _society) public payable returns (bool) {
+    /**
+     * @dev Allows user to donate to an existing society they're a member of
+     * @param  _society Address to identify society
+     * @return {bool} Success
+     */
+    function makeDonation(address _society) public whenNotPaused payable returns (bool) {
         require(userExists(msg.sender) && users[msg.sender].memberOf[_society]);
         _society.transfer(msg.value);
         totalDonations = totalDonations.add(msg.value);
         return true;
     }
 
-    function getSocietiesInLocation(string _location) public view returns (Society[]) {
-        return societiesInLocation[_location];
-    }
-
     /*
     User utilities
     */
 
-    function userExists(address _user) public view returns (bool) {
-        return users[_user].registered;
-    }
-
-    function userAddDonation(address _user, uint _donation) private returns (bool) {
-        require(userExists(_user));
-        users[_user].totalDonations = users[_user].totalDonations.add(_donation);
-        return true;
-    }
-
-    function userIsMemberOf(address _user, address _society) private view returns (bool) {
-        return users[_user].memberOf[_society];
-    }
-
-    function addNewUser(string _name) public returns (bool) {
+    /**
+     * @dev Registers a new user
+     * @param _name String for new user name
+     * @return {bool} Success
+     */
+    function addNewUser(string _name) public whenNotPaused returns (bool) {
         require(!userExists(msg.sender));
         users[msg.sender].name = _name;
         users[msg.sender].wallet = msg.sender;
@@ -146,12 +199,20 @@ contract Data {
     Other utilities
     */
 
+    /**
+     * @dev Logs a new society being added
+     * @return {bool} Success
+     */
     function newSocietyAdded() private returns (bool) {
         numberOfSocieties = numberOfSocieties.add(1);
         emit NewSocietyAdded();
         return true;
     }
 
+    /**
+     * @dev Logs a new user being registered
+     * @return {bool} Success
+     */
     function newUserAdded() private returns (bool) {
         numberOfUsers = numberOfUsers.add(1);
         emit NewUserAdded();

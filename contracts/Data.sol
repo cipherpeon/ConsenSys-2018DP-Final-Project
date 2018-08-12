@@ -132,7 +132,8 @@ contract Data is Pausable {
         _society = new Society(_name, _location, msg.sender, _socialLink);
         allSocieties.push(_society);
         societiesInLocation[_location].push(_society);
-        joinSociety(_society);
+        users[msg.sender].memberOf[_society] = true;
+        users[msg.sender].memberships = users[msg.sender].memberships.add(1);
         newSocietyAdded();
     }
 
@@ -201,22 +202,18 @@ contract Data is Pausable {
 
     /**
      * @dev Logs a new society being added
-     * @return {bool} Success
      */
-    function newSocietyAdded() private returns (bool) {
+    function newSocietyAdded() private {
         numberOfSocieties = numberOfSocieties.add(1);
         emit NewSocietyAdded();
-        return true;
     }
 
     /**
      * @dev Logs a new user being registered
-     * @return {bool} Success
      */
-    function newUserAdded() private returns (bool) {
+    function newUserAdded() private {
         numberOfUsers = numberOfUsers.add(1);
         emit NewUserAdded();
-        return true;
     }
 
 }

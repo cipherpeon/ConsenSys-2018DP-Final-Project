@@ -35,16 +35,6 @@ contract Society {
         _;
     }
 
-    modifier onlyMembers() {
-        require(isMember[msg.sender]);
-        _;
-    }
-
-    modifier onlyNonMembers() {
-        require(!isMember[msg.sender]);
-        _;
-    }
-
     /*
     Setters
     */
@@ -97,7 +87,8 @@ contract Society {
      * @param _user Address to identify user
      * @return {bool} Success
      */
-    function join(address _user) external onlyNonMembers returns (bool) {
+    function join(address _user) external returns (bool) {
+        require(!isMember[_user]);
         memberships = memberships.add(1);
         isMember[_user] = true;
         return true;
@@ -108,7 +99,8 @@ contract Society {
      * @param _user Address to identify user
      * @return {bool} Success
      */
-    function leave(address _user) external onlyMembers returns (bool) {
+    function leave(address _user) external returns (bool) {
+        require(isMember[_user]);
         memberships = memberships.sub(1);
         isMember[_user] = false;
         return true;
@@ -119,7 +111,7 @@ contract Society {
      * @return {bool} Success
      */
     function withdraw() external onlyAdmin returns (bool) {
-        admin.transfer(this.balance);
+        admin.transfer(address(this).balance);
         return true;
     }
 

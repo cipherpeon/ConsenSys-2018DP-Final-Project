@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import Title from '../components/Title.js';
 import Subtitle from '../components/Subtitle.js';
+import Text from '../components/Text.js';
 import Address from '../components/Address.js';
 import BlockWrapper from '../components/BlockWrapper.js';
 
@@ -110,6 +111,9 @@ class Profile extends Component {
         </BlockWrapper>
         <Title
           text={"Your Societies"}
+        />
+        <Text
+          text={"To interact with a society, enter the contract address on the Manage page"}
         />
         <BlockWrapper>
           {blocks}

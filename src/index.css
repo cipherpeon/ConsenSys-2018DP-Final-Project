@@ -14,3 +14,7 @@ a, a:hover, a:active, a:focus {
 .col-xs-12 {
     padding: 20px;
 }
+
+select {
+    margin-bottom: 10px;
+}

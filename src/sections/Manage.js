@@ -110,7 +110,11 @@ class Manage extends Component {
   }
 
   manageSociety() {
-    alert('manage')
+    let success = society.at(this.state.society.address).withdraw(this.state.society.address, {from:this.props.userAddress}).then(result => {
+      return result;
+    });
+
+    return success;
   }
 
   render() {
@@ -130,7 +134,7 @@ class Manage extends Component {
       let buttonText;
       let buttonFunction;
       if (isAdmin) {
-        buttonText = "Manage";
+        buttonText = "Withdraw";
         buttonFunction = this.manageSociety;
       } else if (this.state.isMember) {
         buttonText = "Leave";

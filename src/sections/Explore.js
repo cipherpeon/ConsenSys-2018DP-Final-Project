@@ -1,6 +1,7 @@
 import React, { Component, Redirect } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
 import Title from '../components/Title.js';
+import Text from '../components/Text.js';
 import { colors, fonts, borders, lines } from '../styles';
 import { Row, Col } from 'react-bootstrap';
 import Input from '../components/Input.js';
@@ -143,6 +144,9 @@ class Explore extends Component {
           <div>
             <Title
               text="Results"
+            />
+            <Text
+              text={"To interact with a society, enter the contract address on the Manage page"}
             />
             <BlockWrapper>
               {searchResult}

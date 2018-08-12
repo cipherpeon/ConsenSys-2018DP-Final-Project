@@ -115,6 +115,15 @@ contract Society {
     }
 
     /**
+     * @dev Allows admin to withdraw donations
+     * @return {bool} Success
+     */
+    function withdraw() external onlyAdmin returns (bool) {
+        admin.transfer(this.balance);
+        return true;
+    }
+
+    /**
      * @dev Allows contract to be paid
      */
     function () external payable {}

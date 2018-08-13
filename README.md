@@ -25,6 +25,11 @@ Ensure that you have `npm` and `truffle` installed
 1. Visit https://societhy.herokuapp.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 
+## Tests
+
+Javascript tests have been written for each contract, and are run with `truffl test`.
+Explanations of tests have been included as comments in the test files.
+
 ## User Stories
 
 Here are some example user interaction flows

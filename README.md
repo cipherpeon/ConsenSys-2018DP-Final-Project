@@ -27,7 +27,7 @@ Ensure that you have `npm` and `truffle` installed
 
 ## Tests
 
-Javascript tests have been written for each contract, and are run with `truffl test`.
+Javascript tests have been written for each contract, and are run with `truffle test`.
 Explanations of tests have been included as comments in the test files.
 
 ## User Stories

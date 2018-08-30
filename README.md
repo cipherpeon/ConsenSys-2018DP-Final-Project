@@ -14,10 +14,10 @@ Ensure that you have `npm` and `truffle` installed
 
 1. Clone this repo
 2. Run `npm install`
-3. Start up `ganache-cli`
+3. Start up `ganache-cli -m "replace this with your twelve word seed phrase in your metamask wallet"`
 4. Run `truffle console --network ganachecli`
 - In the console, run `migrate --reset`
-5. Run `npm start`
+5. In a new terminal tab, run `npm start`
 6. Sign into Metamask and use the `Localhost 8545` network
 
 ## How to use online

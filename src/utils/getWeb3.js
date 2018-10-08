@@ -2,12 +2,24 @@ import Web3 from 'web3'
 
 let getWeb3 = new Promise(function(resolve, reject) {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
-  window.addEventListener('load', function() {
+  window.addEventListener('load', async () => {
     var results
     var web3 = window.web3
 
-    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof web3 !== 'undefined') {
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        // Request account access if needed
+        await window.ethereum.enable();
+        results = {
+          web3: web3
+        }
+        resolve(results)
+      } catch (error) {
+        console.error(error);
+        reject();
+      }
+    } else if (typeof web3 !== 'undefined') {
       // Use Mist/MetaMask's provider.
       web3 = new Web3(web3.currentProvider)
 

@@ -22,7 +22,7 @@ Ensure that you have `npm` and `truffle` installed
 
 ## How to use online
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 
 ## Tests
@@ -36,7 +36,7 @@ Here are some example user interaction flows
 
 ### I've just heard about Societhy, and want to see if there's a society near me
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 3. You are prompted to register, and after you have registered you can continue to your Profile page
 4. Since you have not joined or created any societies the Profile page is minimal
@@ -46,7 +46,7 @@ Here are some example user interaction flows
 
 ### I've signed up to Societhy and there is no society that suits me, I'm going to create one!
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 3. You are welcomed back as an existing user, click continue to the Profile page
 4. You proceed to the Create page
@@ -55,7 +55,7 @@ Here are some example user interaction flows
 
 ### I registered for Societhy a while back but there weren't any societies that interested me. I recently met X and they told me they just made a society and gave me the contract address, I want to join!
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 3. You are welcomed back as an existing user, click continue to the Profile page
 4. You proceed to the Manage page
@@ -64,7 +64,7 @@ Here are some example user interaction flows
 
 ### After joining a society and getting the social link, we organised a meetup and I met everybody IRL. It was great fun and I want to donate to the organisers!
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 3. You are welcomed back as an existing user, click continue to the Profile page
 4. On the Profile page you see the society you want to donate to and you copy the contract address
@@ -74,7 +74,7 @@ Here are some example user interaction flows
 
 ### I'm a society admin and I've received donations from the lovely members. I'd like to withdraw them so I can pay for beers at the next meetup!
 
-1. Visit https://societhy.herokuapp.com
+1. Visit https://societhy.netlify.com
 2. Ensure you are logged into MetaMask and on Rinkeby
 3. You are welcomed back as an existing user, click continue to the Profile page
 4. On the Profile page you see the society you're an admin of and you copy the contract address
